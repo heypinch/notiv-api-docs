@@ -8,8 +8,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='mailto:developers@notiv.com?subject=Can I please get API Access?'>Sign Up for a Developer Key</a>
 
 includes:
   - errors
@@ -19,221 +18,263 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Notiv API! You can use our API to access Notiv API endpoints, which can create new meetings or retrieve information on your existing meetings in our database.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have provided example calls in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+We strive to keep our documentation as up to date as possible. If you feel you have found an issue in this documentation, please submit an issue or pull request at [https://github.com/heypinch/notiv-api-docs](https://github.com/heypinch/notiv-api-docs)
 
 # Authentication
 
 > To authorize, use this code:
 
 ```ruby
-require 'kittn'
+require 'uri'
+require 'net/http'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+url = URI("https://api.notiv.com/v1/meetings")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["Authorization"] = 'bearer keykeykeykeykey' # substitute your key here
+
+response = http.request(request)
+puts response.read_body
 ```
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
+url = "https://api.notiv.com/v1/meetings"
+
+headers = {
+    'Authorization': "bearer keykeykeykeykey"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: bearer keykeykeykeykey"
 ```
 
 ```javascript
-const kittn = require('kittn');
+var data = null;
 
-let api = kittn.authorize('meowmeowmeow');
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.notiv.com/v1/meetings");
+xhr.setRequestHeader("Authorization", "bearer keykeykeykeykey");
+
+xhr.send(data);
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `keykeykeykeykey` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Notiv uses API keys to allow access to the API. If you would like to have API access enabled on your account, please email us at [developers@notiv.com](mailto:developers@notiv.com).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+Notiv expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: meowmeowmeow`
+`Authorization: bearer keykeykeykeykey`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>keykeykeykeykey</code> with your personal API key.
 </aside>
 
-# Kittens
+# Meetings
 
-## Get All Kittens
+## Get All Meetings
 
 ```ruby
-require 'kittn'
+require 'uri'
+require 'net/http'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+url = URI("https://api.notiv.com/v1/meetings")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["Authorization"] = 'bearer keykeykeykeykey'
+
+response = http.request(request)
+puts response.read_body
 ```
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+url = "https://api.notiv.com/v1/meetings"
+
+headers = {
+    'Authorization': "bearer keykeykeykeykey",
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.notiv.com/v1/meetings"
+  -H "Authorization: bearer keykeykeykeyley"
 ```
 
 ```javascript
-const kittn = require('kittn');
+var data = null;
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.notiv.com/v1/meetings");
+xhr.setRequestHeader("Authorization", "bearer keykeykeykeykey");
+
+xhr.send(data);
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
+{
+  "meetings": [
+    {
+      "id": 1,
+      "name": "Fluffums",
+      "breed": "calico",
+      "fluffiness": 6,
+      "cuteness": 7
+    },
+    {
+      "id": 2,
+      "name": "Max",
+      "breed": "unknown",
+      "fluffiness": 5,
+      "cuteness": 10
+    }
+  ]
+}
+```
+
+This endpoint retrieves all meetings.
+
+### HTTP Request
+
+`GET https://api.notiv.com/v1/meetings`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+page | `1` | The requested numeric page number within the matched meeting results
+include | empty | A comma seperated list of extra attributes to include in the response, e.g. `owner,transcript`.
+
+<aside class="success">
+Remember — always send your API key in the `Authorization` header!
+</aside>
+
+## Get a Specific Meeting
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("https://api.notiv.com/v1/meetings/<ID>?include=transcript")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["Authorization"] = 'bearer keykeykeykeykey' # substitute your key here
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "https://api.notiv.com/v1/meetings/<ID>"
+
+querystring = {"include":"transcript"}
+
+headers = {
+    'Authorization': "bearer keykeykeykeykey",
+    }
+
+response = requests.request("GET", url, headers=headers, params=querystring)
+
+print(response.text)
+```
+
+```shell
+curl "https://api.notiv.com/v1/meetings/<ID>"
+  -H "Authorization: bearer keykeykeykeykey"
+```
+
+```javascript
+var data = null;
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.notiv.com/v1/meetings/<ID>?include=transcript");
+xhr.setRequestHeader("Authorization", "bearer keykeykeykey");
+
+xhr.send(data);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "meeting": {
     "id": 2,
     "name": "Max",
     "breed": "unknown",
     "fluffiness": 5,
     "cuteness": 10
   }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves a specific meeting.
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://api.notiv.com/v1/meetings/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+ID | The ID of the meeting to retrieve
 
-## Delete a Specific Kitten
+### Query Parameters
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+Parameter | Default | Description
+--------- | ------- | -----------
+include | empty | A comma seperated list of extra attributes to include in the response, e.g. `owner,transcript`.
